@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
+/// <summary>
+/// This program is partly done in Finnish and partly in English
+/// Sorry, it might be a bit hard to understand as this was a quick project
+/// </summary>
+
 namespace AutoJack
 {
     public partial class Form1 : Form
@@ -208,7 +213,6 @@ namespace AutoJack
                     k.Send(Keyboard.ScanCodeShort.SPACE, false);
                 }
 
-                stop_loop:
                 if (!jatka)
                 {
                     if (i != count_to)
