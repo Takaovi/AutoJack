@@ -4,7 +4,7 @@ Automatically do grammar- and helljacks
 ## Miten käyttää?
 1. Muokkaa asetuksia sopivaksi
 2. Paina F8 näppäintä aloitaaksesi
-3. Painamalla F8 näppäintä uudestaan lopettaa hyppimisen
+3. Painamalla F8 näppäintä uudestaan voit lopettaa hyppimisen
 
 ## How to use?
 1. Edit the settings to your liking
