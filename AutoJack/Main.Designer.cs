@@ -57,6 +57,7 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.currentNumber = new System.Windows.Forms.Label();
             this.currentWait = new System.Windows.Forms.Label();
+            this.upButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.startFromUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countToUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.speedBar)).BeginInit();
@@ -94,7 +95,7 @@
             // 
             this.tila.AutoSize = true;
             this.tila.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tila.Location = new System.Drawing.Point(8, 11);
+            this.tila.Location = new System.Drawing.Point(8, 10);
             this.tila.Name = "tila";
             this.tila.Size = new System.Drawing.Size(117, 16);
             this.tila.TabIndex = 3;
@@ -346,7 +347,7 @@
             this.groupBox2.Controls.Add(this.copytestingButton);
             this.groupBox2.Controls.Add(this.cleartestingButton);
             this.groupBox2.Controls.Add(this.testingGround);
-            this.groupBox2.Location = new System.Drawing.Point(327, 36);
+            this.groupBox2.Location = new System.Drawing.Point(329, 36);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(429, 362);
             this.groupBox2.TabIndex = 17;
@@ -381,11 +382,11 @@
             // 
             this.openButton.FlatAppearance.BorderSize = 0;
             this.openButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.openButton.Location = new System.Drawing.Point(288, 11);
+            this.openButton.Location = new System.Drawing.Point(288, 8);
             this.openButton.Name = "openButton";
             this.openButton.Size = new System.Drawing.Size(33, 23);
             this.openButton.TabIndex = 17;
-            this.openButton.Text = ">";
+            this.openButton.Text = "🡲";
             this.openButton.UseVisualStyleBackColor = true;
             this.openButton.Click += new System.EventHandler(this.openButton_Click);
             // 
@@ -418,12 +419,25 @@
             this.currentWait.TabIndex = 0;
             this.currentWait.Text = "Current typing wait: None";
             // 
+            // upButton
+            // 
+            this.upButton.FlatAppearance.BorderSize = 0;
+            this.upButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.upButton.Location = new System.Drawing.Point(7, 404);
+            this.upButton.Name = "upButton";
+            this.upButton.Size = new System.Drawing.Size(314, 23);
+            this.upButton.TabIndex = 19;
+            this.upButton.Text = "🡱";
+            this.upButton.UseVisualStyleBackColor = true;
+            this.upButton.Click += new System.EventHandler(this.upButton_Click);
+            // 
             // AutoJack
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(328, 406);
+            this.ClientSize = new System.Drawing.Size(789, 429);
+            this.Controls.Add(this.upButton);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.openButton);
             this.Controls.Add(this.groupBox2);
@@ -483,6 +497,7 @@
         private System.Windows.Forms.Label currentNumber;
         private System.Windows.Forms.Button copytestingButton;
         private System.Windows.Forms.CheckBox numbermodeCheckBox;
+        private System.Windows.Forms.Button upButton;
     }
 }
 

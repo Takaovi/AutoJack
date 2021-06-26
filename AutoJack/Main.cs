@@ -18,8 +18,10 @@ namespace AutoJack
 {
     public partial class AutoJack : Form
     {
-        Size form_open = new Size(779, 445);
-        Size form_closed = new Size(344, 445);
+        Size form_open = new Size(781, 474);
+        Size form_closed = new Size(344, 474);
+        Size form_up = new Size(344, 75);
+        Size form_down = new Size(344, 474);
 
         private KeyHandler ghk;
         Random rand = new Random();
@@ -61,6 +63,7 @@ namespace AutoJack
             openButton.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
             copytestingButton.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
             cleartestingButton.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
+            upButton.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
         }
 
         bool jatka = true;
@@ -449,12 +452,18 @@ namespace AutoJack
             if(AutoJack.ActiveForm.Size == form_open)
             {
                 AutoJack.ActiveForm.Size = form_closed;
-                openButton.Text = ">";
+                openButton.Text = "🡲";
             } 
             else if (AutoJack.ActiveForm.Size == form_closed)
             {
                 AutoJack.ActiveForm.Size = form_open;
-                openButton.Text = "<";
+                openButton.Text = "🡰";
+            } 
+            else if (AutoJack.ActiveForm.Size == form_up)
+            {
+                AutoJack.ActiveForm.Size = form_down;
+                this.Opacity = 1;
+                openButton.Text = "🡲";
             }
         }
 
@@ -474,6 +483,28 @@ namespace AutoJack
             {
                 hellCheckBox.Checked = false;
                 sanoinaCheckBox.Checked = false;
+            }
+        }
+
+        private void upButton_Click(object sender, EventArgs e)
+        {
+            if (AutoJack.ActiveForm.Size == form_up)
+            {
+                AutoJack.ActiveForm.Size = form_down;
+                this.Opacity = 1;
+                upButton.Text = "🡱";
+            }
+            else if (AutoJack.ActiveForm.Size == form_down)
+            {
+                AutoJack.ActiveForm.Size = form_up;
+                this.Opacity = .9;
+                openButton.Text = "🡳";
+            } 
+            else if (AutoJack.ActiveForm.Size == form_open)
+            {
+                AutoJack.ActiveForm.Size = form_up;
+                this.Opacity = .9;
+                openButton.Text = "🡳";
             }
         }
     }
