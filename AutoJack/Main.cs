@@ -58,6 +58,9 @@ namespace AutoJack
             this.Text = softan_nimi + " V" + softan_versio;
 
             AutoJack.ActiveForm.Size = form_closed;
+            openButton.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
+            copytestingButton.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
+            cleartestingButton.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
         }
 
         bool jatka = true;
