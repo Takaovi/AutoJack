@@ -48,6 +48,7 @@
             this.fullstopCheckBox = new System.Windows.Forms.CheckBox();
             this.begincapitalCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.numbermodeCheckBox = new System.Windows.Forms.CheckBox();
             this.testingGround = new System.Windows.Forms.RichTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.copytestingButton = new System.Windows.Forms.Button();
@@ -56,7 +57,6 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.currentNumber = new System.Windows.Forms.Label();
             this.currentWait = new System.Windows.Forms.Label();
-            this.numbermodeCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.startFromUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countToUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.speedBar)).BeginInit();
@@ -222,7 +222,7 @@
             // hellCapsCheckBox
             // 
             this.hellCapsCheckBox.AutoSize = true;
-            this.hellCapsCheckBox.Location = new System.Drawing.Point(75, 20);
+            this.hellCapsCheckBox.Location = new System.Drawing.Point(99, 19);
             this.hellCapsCheckBox.Name = "hellCapsCheckBox";
             this.hellCapsCheckBox.Size = new System.Drawing.Size(50, 17);
             this.hellCapsCheckBox.TabIndex = 13;
@@ -277,7 +277,7 @@
             // hyphenCheckBox
             // 
             this.hyphenCheckBox.AutoSize = true;
-            this.hyphenCheckBox.Location = new System.Drawing.Point(9, 20);
+            this.hyphenCheckBox.Location = new System.Drawing.Point(156, 19);
             this.hyphenCheckBox.Name = "hyphenCheckBox";
             this.hyphenCheckBox.Size = new System.Drawing.Size(63, 17);
             this.hyphenCheckBox.TabIndex = 14;
@@ -288,7 +288,7 @@
             // fullstopCheckBox
             // 
             this.fullstopCheckBox.AutoSize = true;
-            this.fullstopCheckBox.Location = new System.Drawing.Point(130, 20);
+            this.fullstopCheckBox.Location = new System.Drawing.Point(228, 19);
             this.fullstopCheckBox.Name = "fullstopCheckBox";
             this.fullstopCheckBox.Size = new System.Drawing.Size(65, 17);
             this.fullstopCheckBox.TabIndex = 15;
@@ -299,7 +299,7 @@
             // begincapitalCheckBox
             // 
             this.begincapitalCheckBox.AutoSize = true;
-            this.begincapitalCheckBox.Location = new System.Drawing.Point(201, 20);
+            this.begincapitalCheckBox.Location = new System.Drawing.Point(9, 19);
             this.begincapitalCheckBox.Name = "begincapitalCheckBox";
             this.begincapitalCheckBox.Size = new System.Drawing.Size(87, 17);
             this.begincapitalCheckBox.TabIndex = 16;
@@ -318,6 +318,19 @@
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Modes";
+            // 
+            // numbermodeCheckBox
+            // 
+            this.numbermodeCheckBox.AutoSize = true;
+            this.numbermodeCheckBox.Checked = true;
+            this.numbermodeCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.numbermodeCheckBox.Location = new System.Drawing.Point(9, 19);
+            this.numbermodeCheckBox.Name = "numbermodeCheckBox";
+            this.numbermodeCheckBox.Size = new System.Drawing.Size(68, 17);
+            this.numbermodeCheckBox.TabIndex = 3;
+            this.numbermodeCheckBox.Text = "Numbers";
+            this.numbermodeCheckBox.UseVisualStyleBackColor = true;
+            this.numbermodeCheckBox.CheckedChanged += new System.EventHandler(this.numbermodeCheckBox_CheckedChanged);
             // 
             // testingGround
             // 
@@ -404,19 +417,6 @@
             this.currentWait.Size = new System.Drawing.Size(126, 13);
             this.currentWait.TabIndex = 0;
             this.currentWait.Text = "Current typing wait: None";
-            // 
-            // numbermodeCheckBox
-            // 
-            this.numbermodeCheckBox.AutoSize = true;
-            this.numbermodeCheckBox.Checked = true;
-            this.numbermodeCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.numbermodeCheckBox.Location = new System.Drawing.Point(9, 19);
-            this.numbermodeCheckBox.Name = "numbermodeCheckBox";
-            this.numbermodeCheckBox.Size = new System.Drawing.Size(68, 17);
-            this.numbermodeCheckBox.TabIndex = 3;
-            this.numbermodeCheckBox.Text = "Numbers";
-            this.numbermodeCheckBox.UseVisualStyleBackColor = true;
-            this.numbermodeCheckBox.CheckedChanged += new System.EventHandler(this.numbermodeCheckBox_CheckedChanged);
             // 
             // AutoJack
             // 
