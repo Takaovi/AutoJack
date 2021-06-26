@@ -72,6 +72,7 @@ namespace AutoJack
 
             AutoJack.ActiveForm.Size = form_down;
             upButton.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
+            refreshProcesses.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
 
             LoadProcesses();
         }
