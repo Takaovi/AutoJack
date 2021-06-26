@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 /// <summary>
 /// This program is partly done in Finnish and partly in English
@@ -18,20 +19,30 @@ namespace AutoJack
 {
     public partial class AutoJack : Form
     {
-        Size form_open = new Size(781, 474);
-        Size form_closed = new Size(344, 474);
-        Size form_up = new Size(344, 75);
-        Size form_down = new Size(344, 474);
+        [DllImport("USER32.DLL", CharSet = CharSet.Unicode)]
+        public static extern IntPtr FindWindow(string lpClassName,
+            string lpWindowName);
+
+        [DllImport("USER32.DLL")]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        public static IntPtr gameWindow(string windowName)
+        {
+            var x = FindWindow(null, windowName);
+            return x;
+        }
+
+        Size form_up = new Size(387, 185);
+        Size form_down = new Size(387, 469);
 
         private KeyHandler ghk;
         Random rand = new Random();
         Keyboard k = new Keyboard();
 
         string softan_nimi = "AutoJack";
-        string softan_versio = "1.1 Alpha";
-        static Keys startbutton = Keys.F8;
-
-        string[] tilat = { "Running", "Stopped", "Stopping...", "Finished!", "Ready to start ("+ startbutton +")" };
+        string softan_versio = "1.2 Alpha";
+        
+        string[] tilat = { "Running", "Stopped", "Stopping...", "Finished!", "Ready to start (F8)" };
 
         string openchatkey = "/";
         bool jump = true;
@@ -54,16 +65,15 @@ namespace AutoJack
         {
             InitializeComponent();
 
-            ghk = new KeyHandler(startbutton, this);
+            ghk = new KeyHandler(Keys.F8, this);
             ghk.Register();
 
             this.Text = softan_nimi + " V" + softan_versio;
 
-            AutoJack.ActiveForm.Size = form_closed;
-            openButton.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
-            copytestingButton.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
-            cleartestingButton.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
+            AutoJack.ActiveForm.Size = form_down;
             upButton.FlatAppearance.BorderColor = Color.FromArgb(0, 255, 255, 255);
+
+            LoadProcesses();
         }
 
         bool jatka = true;
@@ -106,6 +116,25 @@ namespace AutoJack
             return odotus;
         }
 
+        void active()
+        {
+            if(processBox.Text.Length > 0)
+            SetForegroundWindow(gameWindow(processBox.Text));
+        }
+
+        private void LoadProcesses()
+        {
+            processBox.Items.Clear();
+            Process[] Proc = Process.GetProcesses();
+            foreach (Process process in Proc)
+            {
+                if (!String.IsNullOrEmpty(process.MainWindowTitle))
+                {
+                    processBox.Items.Add(process.MainWindowTitle);
+                }
+            }
+        }
+
         async void animaatio()
         {
             //Informoi käyttäjälle loopin status (Aloitettu)
@@ -125,6 +154,9 @@ namespace AutoJack
                 {
                     /// SANA MOODI - NUMEROT OVAT SANOINA
                     /////////////////////////////////////
+
+                    //Tuo ikkuna esille
+                    active();
 
                     //Avaa chatti
                     SendKeys.Send(openchatkey);
@@ -146,8 +178,14 @@ namespace AutoJack
                     //Laske realistinen odotusaika ja odota
                     await Task.Delay(odotus_funktio());
 
+                    //Tuo ikkuna esille
+                    active();
+
                     //Kirjoita viesti
                     SendKeys.Send(message);
+
+                    //Tuo ikkuna esille
+                    active();
 
                     //Lähetä viesti
                     k.Send(Keyboard.ScanCodeShort.RETURN, true);
@@ -176,6 +214,9 @@ namespace AutoJack
                     char[] arr = message.ToCharArray();
                     foreach (char ch in arr)
                     {
+                        //Tuo ikkuna esille
+                        active();
+
                         //Avaa chatti
                         SendKeys.Send(openchatkey);
 
@@ -188,7 +229,14 @@ namespace AutoJack
                         //Laske realistinen odotusaika ja odota
                         await Task.Delay(odotus_funktio());
 
+                        //Tuo ikkuna esille
+                        active();
+
+                        //Kirjoita kirjain/viesti
                         SendKeys.Send(chr);
+
+                        //Tuo ikkuna esille
+                        active();
 
                         //Lähetä viesti
                         k.Send(Keyboard.ScanCodeShort.RETURN, true);
@@ -204,6 +252,9 @@ namespace AutoJack
                         }
                     }
 
+                    //Tuo ikkuna esille
+                    active();
+
                     //Avaa chatti
                     SendKeys.Send(openchatkey);
 
@@ -215,7 +266,13 @@ namespace AutoJack
                     //Laske realistinen odotusaika ja odota
                     await Task.Delay(odotus_funktio());
 
+                    //Tuo ikkuna esille
+                    active();
+
                     SendKeys.Send(full_message);
+
+                    //Tuo ikkuna esille
+                    active();
 
                     //Lähetä viesti
                     k.Send(Keyboard.ScanCodeShort.RETURN, true);
@@ -225,6 +282,9 @@ namespace AutoJack
                 {
                     /// NORMAALI MOODI - NUMEROT
                     ////////////////////////////
+
+                    //Tuo ikkuna esille
+                    active();
 
                     //Avaa chatti
                     SendKeys.Send(openchatkey);
@@ -240,8 +300,14 @@ namespace AutoJack
                     //Laske realistinen odotusaika ja odota
                     await Task.Delay(odotus_funktio());
 
+                    //Tuo ikkuna esille
+                    active();
+
                     //Kirjoita viesti
                     SendKeys.Send(message);
+
+                    //Tuo ikkuna esille
+                    active();
 
                     //Lähetä viesti
                     k.Send(Keyboard.ScanCodeShort.RETURN, true);
@@ -442,40 +508,6 @@ namespace AutoJack
             fullstop = fullstopCheckBox.Checked;
         }
 
-        private void cleartestingButton_Click(object sender, EventArgs e)
-        {
-            testingGround.Text = "";
-        }
-
-        private void openButton_Click(object sender, EventArgs e)
-        {
-            if(AutoJack.ActiveForm.Size == form_open)
-            {
-                AutoJack.ActiveForm.Size = form_closed;
-                openButton.Text = "🡲";
-            } 
-            else if (AutoJack.ActiveForm.Size == form_closed)
-            {
-                AutoJack.ActiveForm.Size = form_open;
-                openButton.Text = "🡰";
-            } 
-            else if (AutoJack.ActiveForm.Size == form_up)
-            {
-                AutoJack.ActiveForm.Size = form_down;
-                this.Opacity = 1;
-                openButton.Text = "🡲";
-            }
-        }
-
-        async private void copytestingButton_Click(object sender, EventArgs e)
-        {
-            var text = testingGround.Text;
-            Clipboard.SetText(text);
-            testingGround.Text = "Copied!";
-            await Task.Delay(1000);
-            testingGround.Text = text;
-        }
-
         private void numbermodeCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             number = numbermodeCheckBox.Checked;
@@ -491,21 +523,75 @@ namespace AutoJack
             if (AutoJack.ActiveForm.Size == form_up)
             {
                 AutoJack.ActiveForm.Size = form_down;
-                this.Opacity = 1;
                 upButton.Text = "🡱";
             }
             else if (AutoJack.ActiveForm.Size == form_down)
             {
                 AutoJack.ActiveForm.Size = form_up;
-                this.Opacity = .9;
-                openButton.Text = "🡳";
+                upButton.Text = "🡳";
             } 
-            else if (AutoJack.ActiveForm.Size == form_open)
+        }
+
+        private void keybindBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            tila.Focus();
+            Keys startbutton = new Keys();
+
+            switch (keybindBox.Text)
             {
-                AutoJack.ActiveForm.Size = form_up;
-                this.Opacity = .9;
-                openButton.Text = "🡳";
+                case "F1":
+                    startbutton = Keys.F1;
+                    break;
+                case "F2":
+                    startbutton = Keys.F2;
+                    break;
+                case "F3":
+                    startbutton = Keys.F3;
+                    break;
+                case "F4":
+                    startbutton = Keys.F4;
+                    break;
+                case "F5":
+                    startbutton = Keys.F5;
+                    break;
+                case "F6":
+                    startbutton = Keys.F6;
+                    break;
+                case "F7":
+                    startbutton = Keys.F7;
+                    break;
+                case "F8":
+                    startbutton = Keys.F8;
+                    break;
+                case "F9":
+                    startbutton = Keys.F9;
+                    break;
+                case "F10":
+                    startbutton = Keys.F10;
+                    break;
+                case "F11":
+                    startbutton = Keys.F11;
+                    break;
+                case "F12":
+                    startbutton = Keys.F12;
+                    break;
             }
+
+            ghk = new KeyHandler(startbutton, this);
+            ghk.Register();
+
+            tilat[4] = "Ready to start (" + startbutton.ToString() + ")";
+            tila.Text = tilat[4];
+        }
+
+        private void processBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            tila.Focus();
+        }
+
+        private void refreshProcesses_Click(object sender, EventArgs e)
+        {
+            LoadProcesses();
         }
     }
 
