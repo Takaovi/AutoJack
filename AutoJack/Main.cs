@@ -16,20 +16,39 @@ using System.Runtime.InteropServices;
 
 namespace AutoJack
 {
-    public partial class Form1 : Form
+    public partial class AutoJack : Form
     {
+        Size form_open = new Size(779, 445);
+        Size form_closed = new Size(344, 445);
+
         private KeyHandler ghk;
         Random rand = new Random();
         Keyboard k = new Keyboard();
-        Translate t = new Translate();
 
         string softan_nimi = "AutoJack";
-        string softan_versio = "1.0 Alpha";
+        string softan_versio = "1.1 Alpha";
         static Keys startbutton = Keys.F8;
 
         string[] tilat = { "Running", "Stopped", "Stopping...", "Finished!", "Ready to start ("+ startbutton +")" };
 
-        public Form1()
+        string openchatkey = "/";
+        bool jump = true;
+
+        int count_to = 100;
+        int continue_from = 1;
+
+        int speed = 50;
+
+        bool sanoina = false;
+        bool hell = false;
+        bool number = true;
+
+        bool caps = false;
+        bool begin_caps = false;
+        bool fullstop = false;
+        bool hyphen = false;
+
+        public AutoJack()
         {
             InitializeComponent();
 
@@ -37,16 +56,9 @@ namespace AutoJack
             ghk.Register();
 
             this.Text = softan_nimi + " V" + softan_versio;
-        }
 
-        int count_to = 100;
-        int continue_from = 1;
-        int speed = 50;
-        bool sanoina = false;
-        bool hell = false;
-        bool hell_upper = true;
-        bool jump = true;
-        string openchatkey = "/";
+            AutoJack.ActiveForm.Size = form_closed;
+        }
 
         bool jatka = true;
         bool stop = false;
@@ -71,15 +83,28 @@ namespace AutoJack
             base.WndProc(ref m);
         }
 
+        double r_venaus = 0;
+        int odotus = 0;
+        string message = "";
+
+        int odotus_funktio()
+        {
+            r_venaus = message.Length + 1;
+            r_venaus = Math.Pow(r_venaus, 2);
+            r_venaus = r_venaus * speed/2;
+            r_venaus = Math.Floor(r_venaus);
+            odotus = Convert.ToInt32(r_venaus.ToString());
+            odotus = odotus / 2;
+            odotus = rand.Next(odotus, odotus * 2);
+            currentWait.Text = string.Format("Current typing wait: {0} ms",odotus.ToString());
+            return odotus;
+        }
+
         async void animaatio()
         {
             //Informoi käyttäjälle loopin status (Aloitettu)
             tila.Text = tilat[0];
             tila.ForeColor = Color.Green;
-
-            double r_venaus = 0;
-            int odotus = 0;
-            string message = "";
 
             for (int i = continue_from; i <= count_to; i++)
             {
@@ -92,38 +117,54 @@ namespace AutoJack
 
                 if (sanoina)
                 {
+                    /// SANA MOODI - NUMEROT OVAT SANOINA
+                    /////////////////////////////////////
+
                     //Avaa chatti
                     SendKeys.Send(openchatkey);
 
-                    message = t.NumberToWords(i);
+                    //Muunna numero sanoiksi
+                    message = NumberToWords(i);
+
+                    //Kaikki kirjaimet isolla
+                    if (caps) message = message.ToUpper();
 
                     //Iso alkukirjain
-                    message = FirstCharToUpper(message);
+                    if (begin_caps) message = FirstCharToUpper(message);
+
+                    //Lisää piste loppuun
+                    if (fullstop) message += ".";
+
+                    currentNumber.Text = string.Format("Currently typing: \"{0}\"", message);
 
                     //Laske realistinen odotusaika ja odota
-                    r_venaus = message.Length + 1;
-                    r_venaus = Math.Pow(r_venaus,2);
-                    r_venaus = r_venaus * speed;
-                    r_venaus = Math.Floor(r_venaus);
-                    odotus = Convert.ToInt32(r_venaus.ToString());
-                    odotus = odotus / 2;
-                    await Task.Delay(rand.Next(odotus, odotus * 2));
-                    
+                    await Task.Delay(odotus_funktio());
+
                     //Kirjoita viesti
                     SendKeys.Send(message);
 
                     //Lähetä viesti
-                    await Task.Delay(rand.Next(100, 200));
                     k.Send(Keyboard.ScanCodeShort.RETURN, true);
                     k.Send(Keyboard.ScanCodeShort.RETURN, false);
                 }
                 else if (hell)
                 {
-                    message = t.NumberToWords(i);
-                    if (hell_upper) message = message.ToUpper();
+                    /// HELVETTI MOODI - KIRJAIMET JA SANAT
+                    ///////////////////////////////////////
 
+                    //Muunna numero sanoiksi
+                    message = NumberToWords(i);
+
+                    //Kaikki kirjaimet isolla
+                    if (caps) message = message.ToUpper();
+
+                    //Iso alkukirjain
+                    if (begin_caps) message = FirstCharToUpper(message);
+
+                    //Tallenna koko sana muistiin
                     string full_message = message;
 
+                    //Poista kaikki välilyönnit
                     message = message.Replace(" ", string.Empty);
 
                     char[] arr = message.ToCharArray();
@@ -132,19 +173,18 @@ namespace AutoJack
                         //Avaa chatti
                         SendKeys.Send(openchatkey);
 
-                        //Laske realistinen odotusaika ja odota
-                        r_venaus = message.Length + 1;
-                        r_venaus = Math.Pow(r_venaus, 2);
-                        r_venaus = r_venaus * speed;
-                        r_venaus = Math.Floor(r_venaus);
-                        odotus = Convert.ToInt32(r_venaus.ToString());
-                        odotus = odotus / 2;
-                        await Task.Delay(rand.Next(odotus, odotus * 2));
+                        //Lisää piste loppuun
+                        string chr = ch.ToString();
+                        if (fullstop) chr += ".";
 
-                        SendKeys.Send(ch.ToString());
+                        currentNumber.Text = string.Format("Currently typing: \"{0}\"", chr);
+
+                        //Laske realistinen odotusaika ja odota
+                        await Task.Delay(odotus_funktio());
+
+                        SendKeys.Send(chr);
 
                         //Lähetä viesti
-                        await Task.Delay(rand.Next(100, 200));
                         k.Send(Keyboard.ScanCodeShort.RETURN, true);
                         k.Send(Keyboard.ScanCodeShort.RETURN, false);
 
@@ -161,43 +201,43 @@ namespace AutoJack
                     //Avaa chatti
                     SendKeys.Send(openchatkey);
 
+                    //Lisää piste loppuun
+                    if (fullstop) full_message += ".";
+
+                    currentNumber.Text = string.Format("Currently typing: \"{0}\"", full_message);
+
                     //Laske realistinen odotusaika ja odota
-                    r_venaus = message.Length + 1;
-                    r_venaus = Math.Pow(r_venaus, 2);
-                    r_venaus = r_venaus * speed;
-                    r_venaus = Math.Floor(r_venaus);
-                    odotus = Convert.ToInt32(r_venaus.ToString());
-                    odotus = odotus / 2;
-                    await Task.Delay(rand.Next(odotus, odotus * 2));
+                    await Task.Delay(odotus_funktio());
 
                     SendKeys.Send(full_message);
 
                     //Lähetä viesti
-                    await Task.Delay(rand.Next(100, 200));
                     k.Send(Keyboard.ScanCodeShort.RETURN, true);
                     k.Send(Keyboard.ScanCodeShort.RETURN, false);
-
                 }
-                else {
+                else if (number)
+                {
+                    /// NORMAALI MOODI - NUMEROT
+                    ////////////////////////////
+
                     //Avaa chatti
                     SendKeys.Send(openchatkey);
 
+                    //Viesti on numero, suoraan loopista
                     message = i.ToString();
 
+                    //Lisää piste loppuun
+                    if (fullstop) message += ".";
+
+                    currentNumber.Text = string.Format("Currently typing: \"{0}\"", message);
+
                     //Laske realistinen odotusaika ja odota
-                    r_venaus = message.Length + 1;
-                    r_venaus = Math.Pow(r_venaus, 2);
-                    r_venaus = r_venaus * speed;
-                    r_venaus = Math.Floor(r_venaus);
-                    odotus = Convert.ToInt32(r_venaus.ToString());
-                    odotus = odotus / 2;
-                    await Task.Delay(rand.Next(odotus, odotus * 2));
+                    await Task.Delay(odotus_funktio());
 
                     //Kirjoita viesti
                     SendKeys.Send(message);
 
                     //Lähetä viesti
-                    await Task.Delay(rand.Next(100, 200));
                     k.Send(Keyboard.ScanCodeShort.RETURN, true);
                     k.Send(Keyboard.ScanCodeShort.RETURN, false);
                 } 
@@ -205,9 +245,7 @@ namespace AutoJack
                 //Hyppää
                 if (jump)
                 {
-                    //if (!jatka) goto stop_loop;
-
-                    await Task.Delay(rand.Next(500, 1500));
+                    await Task.Delay(rand.Next(500, 1000));
                     k.Send(Keyboard.ScanCodeShort.SPACE,true);
                     await Task.Delay(rand.Next(50, 100));
                     k.Send(Keyboard.ScanCodeShort.SPACE, false);
@@ -217,6 +255,11 @@ namespace AutoJack
                 {
                     if (i != count_to)
                     {
+                        //Stop execution
+                        ////////////////
+
+                        currentWait.Text = "Current typing wait: None";
+                        currentNumber.Text = "Currently typing: None";
                         tila.Text = tilat[1];
                         tila.ForeColor = Color.Red;
                         await Task.Delay(1000);
@@ -225,6 +268,11 @@ namespace AutoJack
                     }
                     else
                     {
+                        //Finished jumping
+                        //////////////////
+
+                        currentWait.Text = "Current typing wait: None";
+                        currentNumber.Text = "Currently typing: None";
                         startFromUpDown.Value = 1;
                         continue_from = 1;
                         stop = false;
@@ -247,54 +295,6 @@ namespace AutoJack
             return input.First().ToString().ToUpper() + String.Join("", input.Skip(1));
         }
 
-        //////////////////////////////////////////////////////////////////////////
-
-        private void sanoinaCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            sanoina = sanoinaCheckBox.Checked;
-            if (sanoina) hellCheckBox.Checked = false;
-        }
-
-        private void hellCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            hell = hellCheckBox.Checked;
-            if (hell) sanoinaCheckBox.Checked = false;
-        }
-
-        private void startFromUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            continue_from = Decimal.ToInt32(startFromUpDown.Value);
-        }
-
-        private void countToUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            count_to = Decimal.ToInt32(countToUpDown.Value);
-        }
-
-        private void jumpBetween_CheckedChanged(object sender, EventArgs e)
-        {
-            jump = jumpBetween.Checked;
-        }
-
-        private void openchatTextBox_TextChanged(object sender, EventArgs e)
-        {
-            if(openchatTextBox.Text.Length == 1) openchatkey = openchatTextBox.Text;
-        }
-
-        private void speedBar_ValueChanged(object sender, EventArgs e)
-        {
-            speed = speedBar.Value;
-            speedLabel.Text = "Delay (" + speed.ToString() + ")";
-        }
-
-        private void hellCapsCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            hell_upper = hellCapsCheckBox.Checked;
-        }
-    }
-
-    public class Translate
-    {
         public string NumberToWords(int number)
         {
             if (number == 0)
@@ -337,7 +337,8 @@ namespace AutoJack
                 {
                     words += tensMap[number / 10];
                     if ((number % 10) > 0)
-                        words += " " + unitsMap[number % 10];
+                    if (!hyphen) words += " " + unitsMap[number % 10];
+                    else words += "-" + unitsMap[number % 10];
                 }
             }
 
@@ -365,6 +366,112 @@ namespace AutoJack
                 words += NumberToWords(decPortion);
             }
             return words;
+        }
+
+        //////////////////////////////////////////////////////////////////////////
+
+        private void sanoinaCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            sanoina = sanoinaCheckBox.Checked;
+            if (sanoina)
+            {
+                hellCheckBox.Checked = false;
+                numbermodeCheckBox.Checked = false;
+            }
+        }
+
+        private void hellCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            hell = hellCheckBox.Checked;
+            if (hell)
+            {
+                sanoinaCheckBox.Checked = false;
+                numbermodeCheckBox.Checked = false;
+            }
+        }
+
+        private void startFromUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            continue_from = Decimal.ToInt32(startFromUpDown.Value);
+        }
+
+        private void countToUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            count_to = Decimal.ToInt32(countToUpDown.Value);
+        }
+
+        private void jumpBetween_CheckedChanged(object sender, EventArgs e)
+        {
+            jump = jumpBetween.Checked;
+        }
+
+        private void openchatTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if(openchatTextBox.Text.Length == 1) openchatkey = openchatTextBox.Text;
+        }
+
+        private void speedBar_ValueChanged(object sender, EventArgs e)
+        {
+            speed = speedBar.Value;
+            speedLabel.Text = "Delay (" + speed.ToString() + ")";
+        }
+
+        private void hyphenCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            hyphen = hyphenCheckBox.Checked;
+        }
+
+        private void begincapitalCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            begin_caps = begincapitalCheckBox.Checked;
+        }
+
+        private void capsCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            caps = hellCapsCheckBox.Checked;
+        }
+
+        private void fullstopCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            fullstop = fullstopCheckBox.Checked;
+        }
+
+        private void cleartestingButton_Click(object sender, EventArgs e)
+        {
+            testingGround.Text = "";
+        }
+
+        private void openButton_Click(object sender, EventArgs e)
+        {
+            if(AutoJack.ActiveForm.Size == form_open)
+            {
+                AutoJack.ActiveForm.Size = form_closed;
+                openButton.Text = ">";
+            } 
+            else if (AutoJack.ActiveForm.Size == form_closed)
+            {
+                AutoJack.ActiveForm.Size = form_open;
+                openButton.Text = "<";
+            }
+        }
+
+        async private void copytestingButton_Click(object sender, EventArgs e)
+        {
+            var text = testingGround.Text;
+            Clipboard.SetText(text);
+            testingGround.Text = "Copied!";
+            await Task.Delay(1000);
+            testingGround.Text = text;
+        }
+
+        private void numbermodeCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            number = numbermodeCheckBox.Checked;
+            if (number)
+            {
+                hellCheckBox.Checked = false;
+                sanoinaCheckBox.Checked = false;
+            }
         }
     }
 
@@ -410,7 +517,7 @@ namespace AutoJack
     }
 
     public class Keyboard
-{
+    {
     public void Send(ScanCodeShort a,bool down)
     {
         INPUT[] Inputs = new INPUT[1];
