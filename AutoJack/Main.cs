@@ -55,6 +55,7 @@ namespace AutoJack
         bool sanoina = false;
         bool hell = false;
         bool number = true;
+        bool death = false;
 
         bool caps = false;
         bool begin_caps = false;
@@ -279,6 +280,96 @@ namespace AutoJack
                     k.Send(Keyboard.ScanCodeShort.RETURN, true);
                     k.Send(Keyboard.ScanCodeShort.RETURN, false);
                 }
+                else if (death)
+                {
+                    /// DEATH MOODI - KIRJAIMET JA SANAT VÄÄRINPÄIN
+                    ///////////////////////////////////////////////
+
+                    //Muunna numero sanoiksi
+                    message = NumberToWords(i);
+
+                    //Kaikki kirjaimet isolla
+                    if (caps) message = message.ToUpper();
+
+                    //Iso alkukirjain
+                    if (begin_caps) message = FirstCharToUpper(message);
+
+                    //Käännä sana toisinpäin
+                    message = Reverse(message);
+
+                    //Tallenna koko sana muistiin
+                    string full_message = message;
+
+                    //Poista kaikki välilyönnit
+                    message = message.Replace(" ", string.Empty);
+
+                    char[] arr = message.ToCharArray();
+                    foreach (char ch in arr)
+                    {
+                        //Tuo ikkuna esille
+                        active();
+
+                        //Avaa chatti
+                        SendKeys.Send(openchatkey);
+
+                        //Lisää piste loppuun
+                        string chr = ch.ToString();
+                        if (fullstop) chr += ".";
+
+                        currentNumber.Text = string.Format("Currently typing: \"{0}\"", chr);
+
+                        //Laske realistinen odotusaika ja odota
+                        await Task.Delay(odotus_funktio());
+
+                        //Tuo ikkuna esille
+                        active();
+
+                        //Kirjoita kirjain/viesti
+                        SendKeys.Send(chr);
+
+                        //Tuo ikkuna esille
+                        active();
+
+                        //Lähetä viesti
+                        k.Send(Keyboard.ScanCodeShort.RETURN, true);
+                        k.Send(Keyboard.ScanCodeShort.RETURN, false);
+
+                        //Hyppää
+                        if (jump)
+                        {
+                            await Task.Delay(rand.Next(250, 1000));
+                            k.Send(Keyboard.ScanCodeShort.SPACE, true);
+                            await Task.Delay(rand.Next(50, 100));
+                            k.Send(Keyboard.ScanCodeShort.SPACE, false);
+                        }
+                    }
+
+                    //Tuo ikkuna esille
+                    active();
+
+                    //Avaa chatti
+                    SendKeys.Send(openchatkey);
+
+                    //Lisää piste loppuun
+                    if (fullstop) full_message += ".";
+
+                    currentNumber.Text = string.Format("Currently typing: \"{0}\"", full_message);
+
+                    //Laske realistinen odotusaika ja odota
+                    await Task.Delay(odotus_funktio());
+
+                    //Tuo ikkuna esille
+                    active();
+
+                    SendKeys.Send(full_message);
+
+                    //Tuo ikkuna esille
+                    active();
+
+                    //Lähetä viesti
+                    k.Send(Keyboard.ScanCodeShort.RETURN, true);
+                    k.Send(Keyboard.ScanCodeShort.RETURN, false);
+                }
                 else if (number)
                 {
                     /// NORMAALI MOODI - NUMEROT
@@ -359,6 +450,13 @@ namespace AutoJack
                 }
             }
             jatka = true;
+        }
+
+        public static string Reverse(string s)
+        {
+            char[] charArray = s.ToCharArray();
+            Array.Reverse(charArray);
+            return new string(charArray);
         }
 
         public static string FirstCharToUpper(string input)
@@ -450,6 +548,7 @@ namespace AutoJack
             {
                 hellCheckBox.Checked = false;
                 numbermodeCheckBox.Checked = false;
+                deathCheckBox.Checked = false;
             }
         }
 
@@ -460,6 +559,7 @@ namespace AutoJack
             {
                 sanoinaCheckBox.Checked = false;
                 numbermodeCheckBox.Checked = false;
+                deathCheckBox.Checked = false;
             }
         }
 
@@ -516,6 +616,7 @@ namespace AutoJack
             {
                 hellCheckBox.Checked = false;
                 sanoinaCheckBox.Checked = false;
+                deathCheckBox.Checked = false;
             }
         }
 
@@ -593,6 +694,17 @@ namespace AutoJack
         private void refreshProcesses_Click(object sender, EventArgs e)
         {
             LoadProcesses();
+        }
+
+        private void deathCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            death = deathCheckBox.Checked;
+            if (death)
+            {
+                sanoinaCheckBox.Checked = false;
+                numbermodeCheckBox.Checked = false;
+                hellCheckBox.Checked = false;
+            }
         }
     }
 

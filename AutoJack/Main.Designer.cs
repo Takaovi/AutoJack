@@ -51,12 +51,13 @@
             this.upButton = new System.Windows.Forms.Button();
             this.processBox = new System.Windows.Forms.ComboBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.refreshProcesses = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.keybindBox = new System.Windows.Forms.ComboBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.speedLabel = new System.Windows.Forms.GroupBox();
-            this.refreshProcesses = new System.Windows.Forms.Button();
+            this.deathCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.startFromUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countToUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.speedBar)).BeginInit();
@@ -85,11 +86,11 @@
             // hellCheckBox
             // 
             this.hellCheckBox.AutoSize = true;
-            this.hellCheckBox.Location = new System.Drawing.Point(137, 21);
+            this.hellCheckBox.Location = new System.Drawing.Point(135, 21);
             this.hellCheckBox.Name = "hellCheckBox";
-            this.hellCheckBox.Size = new System.Drawing.Size(73, 17);
+            this.hellCheckBox.Size = new System.Drawing.Size(44, 17);
             this.hellCheckBox.TabIndex = 2;
-            this.hellCheckBox.Text = "Hell mode";
+            this.hellCheckBox.Text = "Hell";
             this.hellCheckBox.UseVisualStyleBackColor = true;
             this.hellCheckBox.CheckedChanged += new System.EventHandler(this.hellCheckBox_CheckedChanged);
             // 
@@ -266,6 +267,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.deathCheckBox);
             this.groupBox3.Controls.Add(this.numbermodeCheckBox);
             this.groupBox3.Controls.Add(this.hellCheckBox);
             this.groupBox3.Controls.Add(this.sanoinaCheckBox);
@@ -351,6 +353,19 @@
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Process";
             // 
+            // refreshProcesses
+            // 
+            this.refreshProcesses.FlatAppearance.BorderSize = 0;
+            this.refreshProcesses.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.refreshProcesses.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.refreshProcesses.Location = new System.Drawing.Point(134, 19);
+            this.refreshProcesses.Name = "refreshProcesses";
+            this.refreshProcesses.Size = new System.Drawing.Size(23, 20);
+            this.refreshProcesses.TabIndex = 24;
+            this.refreshProcesses.Text = "↺";
+            this.refreshProcesses.UseVisualStyleBackColor = true;
+            this.refreshProcesses.Click += new System.EventHandler(this.refreshProcesses_Click);
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.startFromUpDown);
@@ -415,18 +430,16 @@
             this.speedLabel.TabStop = false;
             this.speedLabel.Text = "Delay (50)";
             // 
-            // refreshProcesses
+            // deathCheckBox
             // 
-            this.refreshProcesses.FlatAppearance.BorderSize = 0;
-            this.refreshProcesses.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.refreshProcesses.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.refreshProcesses.Location = new System.Drawing.Point(134, 19);
-            this.refreshProcesses.Name = "refreshProcesses";
-            this.refreshProcesses.Size = new System.Drawing.Size(23, 20);
-            this.refreshProcesses.TabIndex = 24;
-            this.refreshProcesses.Text = "↺";
-            this.refreshProcesses.UseVisualStyleBackColor = true;
-            this.refreshProcesses.Click += new System.EventHandler(this.refreshProcesses_Click);
+            this.deathCheckBox.AutoSize = true;
+            this.deathCheckBox.Location = new System.Drawing.Point(187, 21);
+            this.deathCheckBox.Name = "deathCheckBox";
+            this.deathCheckBox.Size = new System.Drawing.Size(55, 17);
+            this.deathCheckBox.TabIndex = 4;
+            this.deathCheckBox.Text = "Death";
+            this.deathCheckBox.UseVisualStyleBackColor = true;
+            this.deathCheckBox.CheckedChanged += new System.EventHandler(this.deathCheckBox_CheckedChanged);
             // 
             // AutoJack
             // 
@@ -502,6 +515,7 @@
         private System.Windows.Forms.GroupBox speedLabel;
         private System.Windows.Forms.ComboBox keybindBox;
         private System.Windows.Forms.Button refreshProcesses;
+        private System.Windows.Forms.CheckBox deathCheckBox;
     }
 }
 
