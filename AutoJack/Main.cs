@@ -20,8 +20,7 @@ namespace AutoJack
     public partial class AutoJack : Form
     {
         [DllImport("USER32.DLL", CharSet = CharSet.Unicode)]
-        public static extern IntPtr FindWindow(string lpClassName,
-            string lpWindowName);
+        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         [DllImport("USER32.DLL")]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
@@ -40,7 +39,7 @@ namespace AutoJack
         Keyboard k = new Keyboard();
 
         string softan_nimi = "AutoJack";
-        string softan_versio = "1.2 Alpha";
+        string softan_versio = "1.3 Alpha";
         
         string[] tilat = { "Running", "Stopped", "Stopping...", "Finished!", "Ready to start (F8)" };
 

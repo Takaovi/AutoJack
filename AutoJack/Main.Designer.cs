@@ -44,6 +44,7 @@
             this.fullstopCheckBox = new System.Windows.Forms.CheckBox();
             this.begincapitalCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.deathCheckBox = new System.Windows.Forms.CheckBox();
             this.numbermodeCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.currentNumber = new System.Windows.Forms.Label();
@@ -57,7 +58,6 @@
             this.keybindBox = new System.Windows.Forms.ComboBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.speedLabel = new System.Windows.Forms.GroupBox();
-            this.deathCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.startFromUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countToUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.speedBar)).BeginInit();
@@ -235,7 +235,7 @@
             // hyphenCheckBox
             // 
             this.hyphenCheckBox.AutoSize = true;
-            this.hyphenCheckBox.Location = new System.Drawing.Point(157, 21);
+            this.hyphenCheckBox.Location = new System.Drawing.Point(153, 21);
             this.hyphenCheckBox.Name = "hyphenCheckBox";
             this.hyphenCheckBox.Size = new System.Drawing.Size(63, 17);
             this.hyphenCheckBox.TabIndex = 14;
@@ -246,7 +246,7 @@
             // fullstopCheckBox
             // 
             this.fullstopCheckBox.AutoSize = true;
-            this.fullstopCheckBox.Location = new System.Drawing.Point(228, 21);
+            this.fullstopCheckBox.Location = new System.Drawing.Point(221, 21);
             this.fullstopCheckBox.Name = "fullstopCheckBox";
             this.fullstopCheckBox.Size = new System.Drawing.Size(65, 17);
             this.fullstopCheckBox.TabIndex = 15;
@@ -277,6 +277,17 @@
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Modes";
+            // 
+            // deathCheckBox
+            // 
+            this.deathCheckBox.AutoSize = true;
+            this.deathCheckBox.Location = new System.Drawing.Point(182, 21);
+            this.deathCheckBox.Name = "deathCheckBox";
+            this.deathCheckBox.Size = new System.Drawing.Size(55, 17);
+            this.deathCheckBox.TabIndex = 4;
+            this.deathCheckBox.Text = "Death";
+            this.deathCheckBox.UseVisualStyleBackColor = true;
+            this.deathCheckBox.CheckedChanged += new System.EventHandler(this.deathCheckBox_CheckedChanged);
             // 
             // numbermodeCheckBox
             // 
@@ -429,17 +440,6 @@
             this.speedLabel.TabIndex = 23;
             this.speedLabel.TabStop = false;
             this.speedLabel.Text = "Delay (50)";
-            // 
-            // deathCheckBox
-            // 
-            this.deathCheckBox.AutoSize = true;
-            this.deathCheckBox.Location = new System.Drawing.Point(187, 21);
-            this.deathCheckBox.Name = "deathCheckBox";
-            this.deathCheckBox.Size = new System.Drawing.Size(55, 17);
-            this.deathCheckBox.TabIndex = 4;
-            this.deathCheckBox.Text = "Death";
-            this.deathCheckBox.UseVisualStyleBackColor = true;
-            this.deathCheckBox.CheckedChanged += new System.EventHandler(this.deathCheckBox_CheckedChanged);
             // 
             // AutoJack
             // 
